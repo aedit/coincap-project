@@ -4,7 +4,9 @@
         <span class="tableRow__cell">{{rowData.symbol}}</span>
         <span class="tableRow__cell">{{rowData.id}}</span>
         <span class="tableRow__cell">
-            <RouterLink v-if="type !== 'header'" :to="rowData.id">{{ rowData.name }}</RouterLink>
+            <RouterLink v-if="type !== 'header' && type !== 'single'" :to="rowData.id">
+                {{ rowData.name }}
+            </RouterLink>
             <template v-else>{{ rowData.name }}</template>
         </span>
         <span class="tableRow__cell">
@@ -24,8 +26,12 @@
             </template>
         </span>
 
-        <span class="tableRow__cell favorite" @click="$emit('toggleFavorite', rowData.id)"
-            :title="isFavorite ? 'Remove Favorite' : 'Mark Favorite'">
+        <span
+            v-if="type !== 'single'"
+            class="tableRow__cell favorite"
+            @click="$emit('toggleFavorite', rowData.id)"
+            :title="isFavorite ? 'Remove Favorite' : 'Mark Favorite'"
+        >
             <template v-if="type === 'header'">
                 Favorite
             </template>
