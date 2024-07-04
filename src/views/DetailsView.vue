@@ -5,7 +5,7 @@
     <div v-if="isLoading">
         Loading Coin Data ...
     </div>
-    <div v-else-if="error">
+    <div class="errorMessage" v-else-if="error">
         Some error Occured. Please try later!
     </div>
     <div v-else class="coindata">
@@ -43,7 +43,7 @@ export default defineComponent({
         const response = await axios.get(`https://api.coincap.io/v2/assets/${id}`);
         data = response.data;
       } catch (e) {
-        console.log(e);
+        console.error(e);
         this.error = true;
       } finally {
         this.isLoading = false;
