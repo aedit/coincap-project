@@ -1,9 +1,27 @@
 <template>
   <div class="home">
+    <div class="sorting">
+      <label for="sorting">
+        <span>Sort By: </span>
+        <select id="sorting" v-model="sorting" class="sorting">
+        <option value="name">Name</option>
+        <option value="symbol">Symbol</option>
+      </select>
+    </label>
+    </div>
     <div v-if="isLoading">
       Loading Data ...
     </div>
     <TableBody v-else :tableData="computedTableData"/>
+
+    <div class="pagination">
+      <button v-if="currentPage > 1" @click="currentPage--" class="previous-btn">Previous</button>
+      <div>
+        <span id="currentPage">{{ currentPage }}</span>
+        / <span id="totalPages">{{ totalPages }}</span>
+      </div>
+      <button v-if="currentPage < totalPages" @click="currentPage++" class="next-btn">Next</button>
+    </div>
   </div>
 </template>
 
@@ -25,6 +43,7 @@ export default defineComponent({
       totalPages: 0,
       currentPage: 1,
       errorMessage: '',
+      sorting: 'rank' as keyof CoinsDataModel,
     };
   },
   components: {
@@ -45,6 +64,12 @@ export default defineComponent({
   computed: {
     computedTableData(): CoinsDataModel[] {
       let newData = this.tableData || [];
+
+      newData.sort(
+        (a: CoinsDataModel, b: CoinsDataModel) => a[this.sorting as keyof CoinsDataModel]
+          .localeCompare(b[this.sorting as keyof CoinsDataModel]),
+      );
+
       newData = newData?.slice((this.currentPage - 1) * PER_PAGE, this.currentPage * PER_PAGE)
       || [];
 
@@ -68,3 +93,37 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+  .home {
+    display: flex;
+    flex-direction: column;
+
+    .sorting{
+      display: flex;
+      justify-content: flex-end;
+
+      label {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    button {
+      color: #eee;
+      font-weight: bold;
+      background-color: #42b983;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+  }
+</style>
