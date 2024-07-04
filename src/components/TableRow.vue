@@ -2,7 +2,10 @@
     <div :class="`tableRow ${type==='header' ? 'tableHeader' : ''}`">
         <span class="tableRow__cell">{{rowData.symbol}}</span>
         <span class="tableRow__cell">{{rowData.id}}</span>
-        <span class="tableRow__cell">{{rowData.name}}</span>
+        <span class="tableRow__cell">
+            <RouterLink v-if="type !== 'header'" :to="rowData.id">{{ rowData.name }}</RouterLink>
+            <template v-else>{{ rowData.name }}</template>
+        </span>
         <span class="tableRow__cell">
             <template v-if="type === 'header'">
                 {{ rowData.priceUsd }}
@@ -64,6 +67,10 @@ export default defineComponent({
             border-right: 1px solid #eee;
             padding: 5px;
             border-bottom: 1px solid #eee;
+
+            a{
+                color: #42b983
+            }
         }
     }
 </style>
