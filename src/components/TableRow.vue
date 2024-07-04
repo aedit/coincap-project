@@ -1,6 +1,10 @@
 <template>
     <div class="tableRow">
-        {{ rowData }}
+        <span class="tableRow__cell">{{rowData.symbol}}</span>
+        <span class="tableRow__cell">{{rowData.id}}</span>
+        <span class="tableRow__cell">{{rowData.name}}</span>
+        <span class="tableRow__cell">{{rowData.priceUsd}}</span>
+        <span class="tableRow__cell">{{rowData.marketCapUsd}}</span>
     </div>
 </template>
 
@@ -19,3 +23,17 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+    .tableRow {
+        display:table-row;
+
+        &__cell {
+            display: table-cell;
+            min-width: 100px;
+            border-right: 1px solid #eee;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    }
+</style>

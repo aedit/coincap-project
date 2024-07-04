@@ -23,3 +23,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+    .tableBody{
+        display: table;
+        border-left: 1px solid #eee;
+        border-top: 1px solid #eee;
+        width: 100%;
+        margin: 2rem 0;
+    }
+</style>
