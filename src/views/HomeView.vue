@@ -14,7 +14,7 @@
     </div>
     <TableBody v-else :tableData="computedTableData"/>
 
-    <div class="pagination">
+    <div class="pagination" v-if="!isLoading && !errorMessage">
       <button v-if="currentPage > 1" @click="currentPage--" class="previous-btn">Previous</button>
       <div>
         <span id="currentPage">{{ currentPage }}</span>
