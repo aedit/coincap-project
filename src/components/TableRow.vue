@@ -1,3 +1,4 @@
+<!-- eslint-disable vuejs-accessibility/click-events-have-key-events -->
 <template>
     <div :class="`tableRow ${type==='header' ? 'tableHeader' : ''}`">
         <span class="tableRow__cell">{{rowData.symbol}}</span>
@@ -22,6 +23,19 @@
                 {{ toCurrencyString(rowData.marketCapUsd) }}
             </template>
         </span>
+
+        <span class="tableRow__cell favorite" @click="$emit('toggleFavorite', rowData.id)"
+            :title="isFavorite ? 'Remove Favorite' : 'Mark Favorite'">
+            <template v-if="type === 'header'">
+                Favorite
+            </template>
+            <template v-else-if="isFavorite">
+                ✨
+            </template>
+            <template v-else>
+                ⭐
+            </template>
+        </span>
     </div>
 </template>
 
@@ -40,6 +54,9 @@ export default defineComponent({
     type: {
       type: String,
       default: '',
+    },
+    isFavorite: {
+      type: Boolean,
     },
   },
   methods: {
@@ -70,6 +87,10 @@ export default defineComponent({
 
             a{
                 color: #42b983
+            }
+
+            &.favorite{
+                cursor: pointer;
             }
         }
     }
