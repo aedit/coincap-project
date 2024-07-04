@@ -1,10 +1,24 @@
 <template>
-    <div class="tableRow">
+    <div :class="`tableRow ${type==='header' ? 'tableHeader' : ''}`">
         <span class="tableRow__cell">{{rowData.symbol}}</span>
         <span class="tableRow__cell">{{rowData.id}}</span>
         <span class="tableRow__cell">{{rowData.name}}</span>
-        <span class="tableRow__cell">{{rowData.priceUsd}}</span>
-        <span class="tableRow__cell">{{rowData.marketCapUsd}}</span>
+        <span class="tableRow__cell">
+            <template v-if="type === 'header'">
+                {{ rowData.priceUsd }}
+            </template>
+            <template v-else>
+                {{ toCurrencyString(rowData.priceUsd) }}
+            </template>
+        </span>
+        <span class="tableRow__cell">
+            <template v-if="type === 'header'">
+                {{ rowData.marketCapUsd }}
+            </template>
+            <template v-else>
+                {{ toCurrencyString(rowData.marketCapUsd) }}
+            </template>
+        </span>
     </div>
 </template>
 
@@ -20,6 +34,15 @@ export default defineComponent({
       type: Object as PropType<CoinsDataModel>,
       required: true,
     },
+    type: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+    toCurrencyString(number: string) {
+      return parseInt(number, 10).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    },
   },
 });
 </script>
@@ -27,6 +50,13 @@ export default defineComponent({
 <style lang="scss">
     .tableRow {
         display:table-row;
+
+        &.tableHeader {
+            .tableRow__cell {
+                font-weight: 600;
+                color: white;
+            }
+        }
 
         &__cell {
             display: table-cell;

@@ -1,5 +1,6 @@
 <template>
     <div class="tableBody">
+        <TableRow :rowData="headersData" type="header" />
         <TableRow v-for="row in tableData" :key="row.id" :rowData="row"/>
     </div>
 </template>
@@ -17,6 +18,18 @@ export default defineComponent({
       type: Array as PropType<CoinsDataModel[]>,
       required: true,
     },
+  },
+  data() {
+    return {
+      headersData: {
+        symbol: 'Symbol',
+        name: 'Name',
+        id: 'ID',
+        rank: 'Rank',
+        marketCapUsd: 'Market Cap USD $',
+        priceUsd: 'Price USD $',
+      } as CoinsDataModel,
+    };
   },
   components: {
     TableRow,
